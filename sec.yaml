@@ -1,0 +1,18 @@
+kind: Secret 
+apiVersion: v1 
+metadata:
+  name: project1secret 
+  namespace: cep-project1
+stringData:
+  name_mysql: MYSQL_ROOT_PASSWORD
+  value_mysql: simplilearn
+  name_mysqldb: MYSQL_DATABASE
+  value_mysqldb: database1
+  name_wdh: WORDPRESS_DB_HOST
+  value_wdh: mysql
+  name_wdp: WORDPRESS_DB_PASS
+  value_wdp: simplilearn
+  name_wdu: WORDPRESS_DB_USER
+  value_wdu: root
+  name_wdn: WORDPRESS_DB_NAME
+  value_wdn: database1

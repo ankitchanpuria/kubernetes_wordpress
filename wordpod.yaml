@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: wordpress
+  name: wordpress
+  namespace: cep-project1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        env:
+         - name: WORDPRESS_DB_HOST
+           valueFrom:
+            secretKeyRef:
+             name: project1secret
+             key: value_wdh
+             optional: false
+         - name: WORDPRESS_DB_PASS
+           valueFrom:
+            secretKeyRef:
+              name: project1secret
+              key: value_wdp
+              optional: false
+         - name: WORDPRESS_DB_USER
+           valueFrom:
+            secretKeyRef:
+             name: project1secret
+             key: value_wdu
+             optional: false
+         - name: WORDPRESS_DB_NAME
+           valueFrom:
+            secretKeyRef:
+              name: project1secret
+              key: value_wdn
+              optional: false
+        ports:
+        - containerPort: 80
+          name: wordpress
+        volumeMounts:
+        - name: myvol1 
+          mountPath: /var/lib/mysql
+      volumes:
+        - name: myvol1
+          persistentVolumeClaim:
+           claimName: mypvc1
