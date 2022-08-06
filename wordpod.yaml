@@ -21,6 +21,10 @@ spec:
       containers:
       - image: wordpress
         name: wordpress
+      initContainers:
+      - name: init-mysqlsvc
+        image: busybox:1.28
+        command: ['sh', '-c', "until nslookup mysql.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
         env:
          - name: WORDPRESS_DB_HOST
            valueFrom:
@@ -28,7 +32,7 @@ spec:
              name: project1secret
              key: value_wdh
              optional: false
-         - name: WORDPRESS_DB_PASS
+         - name: WORDPRESS_DB_PASSWORD
            valueFrom:
             secretKeyRef:
               name: project1secret
